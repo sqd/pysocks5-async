@@ -3,6 +3,8 @@ Easily extensible async SOCKS5 server.
 
 Requirement: Python 3.5+
 
+    pip install pySOCKS5-async
+
 ### Run from cmdline
     python3 -m pysocks5-async 8080
 

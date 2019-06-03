@@ -6,11 +6,11 @@ Requirement: Python 3.5+
     pip install pySOCKS5-async
 
 ### Run from cmdline
-    python3 -m pysocks5-async 8080
+    python3 -m pysocks5 8080
 
 ### Use in code:
 ```python
-from socks5async import SOCKS5Server, SimpleSOCKS5Handler
+from pysocks5 import SOCKS5Server, SimpleSOCKS5Handler
 
 socks5d = SOCKS5Server('localhost', 8080, SimpleSOCKS5Handler)
 await socks5d.start_server()
@@ -18,7 +18,7 @@ await socks5d.start_server()
 
 ### Extend
 ```python
-from socks5async import SOCKS5Server, BaseSOCKS5Handler, SOCKS5Status
+from pysocks5 import SOCKS5Server, BaseSOCKS5Handler, SOCKS5Status
 
 class MyHandler(BaseSOCKS5Handler):
     async def do_TCP_open(self):
@@ -26,6 +26,8 @@ class MyHandler(BaseSOCKS5Handler):
                request TCP open to {self.dest_host}:{self.dest_port}')
         print(f'dest_host has string representation {self.dest_host_str()}')
         self.response_status(SOCKS5Status.OK)
+        content = await self.client_reader.read(10)
+        self.client_writer.write(content)
         pass
 
     async def do_TCP_bind(self):
